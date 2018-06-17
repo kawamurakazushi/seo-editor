@@ -1,3 +1,21 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
+var app = new Vue({
+  el: "#app",
+  data: {
+    keywords: [
+      {
+        value: "キーワード"
+      }
+    ],
+    body: "ここに本文を入力"
+  },
+  methods: {
+    addKeyword: function() {
+      this.keywords.push({
+        value: ""
+      });
+    },
+    removeKeyword: function(i) {
+      this.keywords.splice(i, 1);
+    }
+  }
+});
