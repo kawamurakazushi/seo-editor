@@ -13,30 +13,34 @@
 <body>
   <div id="app" class="app">
     <div class="editor">
-      <textarea v-model="body"></textarea>
+      <div class="backdrop">
+        <div class="textarea highlights" v-html="highlight">
+        </div>
+      </div>
+      <textarea class="editable textarea" v-model="body" @scroll="scroll" @keyDown="change"></textarea>
     </div>
-
-    <div class="analytics">
-      <div class="card">
+    <div class=" analytics ">
+      <div class="card ">
         <h2>文字数</h2>
-        <p class="wordCount">{{ body.length }}
+        <p class="wordCount ">{{ body.length }}
           <span>文字</span>
         </p>
       </div>
-      <div class="card">
+      <div class="card ">
         <h2>キーワード数</h2>
-        <div class="keywordWrapper">
-          <div v-for="(keyword, i) in keywords" class="keywordRow">
-            <span @click="removeKeyword(i)" class="closeButton">×</span>
-            <input v-model="keyword.value" />
+        <div class="keywordWrapper ">
+          <div v-for="(keyword, i) in keywords " class="keywordRow ">
+            <span @click="removeKeyword(i)" class="closeButton ">×</span>
+            <input v-model="keyword.value" @change="applyHighlight" />
             <p>{{ keyword.value.length === 0 ? 0 : body.split(keyword.value).length - 1 }} 個</p>
           </div>
         </div>
-        <button @click="addKeyword">キーワードを追加する</button>
+        <button @click="addKeyword ">キーワードを追加する</button>
       </div>
     </div>
   </div>
 </body>
+
 <script>
   require('./renderer.js')
 </script>
