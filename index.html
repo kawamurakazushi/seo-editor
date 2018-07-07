@@ -12,24 +12,36 @@
 
 <body>
   <div id="app" class="app">
-    <div class="editor">
-      <div class="backdrop">
-        <div class="textarea highlights" v-html="highlight">
-        </div>
-      </div>
-      <textarea class="editable textarea" v-model="body" @scroll="scroll" @keyDown="change"></textarea>
+    <div class="sidebar">
+      <ul>
+        <li v-for="(data, i) in articles" @click="selectNote(i)">{{ data.title }}</li>
+      </ul>
     </div>
-    <div class=" analytics ">
+    <div v-if="articles.length > 0" class="editor">
+      <input placeholder="タイトル" class="title" v-model="articles[index].title"/>
+      <div class="container">
+        <div class="backdrop">
+          <div class="textarea highlights" v-html="highlight">
+          </div>
+        </div>
+        <textarea class="editable textarea" v-model="articles[index].body" @scroll="scroll" @keyDown="change"></textarea>
+      </div>
+    </div>
+    <div v-if="articles.length > 0" class="analytics ">
       <div class="card ">
-        <h2>文字数</h2>
-        <p class="wordCount ">{{ body.length }}
+        <h2>タイトル</h2>
+        <p class="wordCount ">{{ articles[index].title.length }}
+          <span>文字</span>
+        </p>
+        <h2>本文</h2>
+        <p class="wordCount ">{{ articles[index].body.length }}
           <span>文字</span>
         </p>
       </div>
       <div class="card ">
         <h2>キーワード数</h2>
         <div class="keywordWrapper ">
-          <div v-for="(keyword, i) in keywords " class="keywordRow ">
+          <div v-for="(keyword, i) in articles[index].keywords " class="keywordRow ">
             <span @click="removeKeyword(i)" class="closeButton ">×</span>
             <input v-model="keyword.value" @change="applyHighlight" />
             <p>{{ keyword.value.length === 0 ? 0 : body.split(keyword.value).length - 1 }} 個</p>
@@ -37,6 +49,9 @@
         </div>
         <button @click="addKeyword ">キーワードを追加する</button>
       </div>
+      <button @click="save">保存する</button>
+      <button @click="clear">クリア</button>
+      <button @click="add">追加する</button>
     </div>
   </div>
 </body>
