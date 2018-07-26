@@ -4,15 +4,12 @@
       :articles="articles" 
       :selectNote="selectNote"
     />
-    <div v-if="articles.length > 0" class="editor">
-      <input placeholder="タイトル" class="title" v-model="articles[index].title"/>
-      <div class="container">
-        <div class="backdrop">
-          <div class="textarea highlights" v-html="highlight">
-          </div>
-        </div>
-        <textarea class="editable textarea" v-model="articles[index].body" @scroll="scroll" @keyDown="change"></textarea>
-      </div> </div>
+    <Editor 
+      v-if="articles.length > 0"
+      :index="index"
+      :articles="articles" 
+      :onBodyChange="change"
+    />
     <div v-if="articles.length > 0" class="analytics ">
       <div class="card ">
         <h2>タイトル</h2>
@@ -44,11 +41,13 @@
 
 <script>
 import Sidebar from "../molecules/Sidebar.vue";
+import Editor from "../molecules/Editor.vue";
 
 export default {
   name: "app",
   components: {
-    Sidebar
+    Sidebar,
+    Editor
   },
   data() {
     return {
@@ -150,8 +149,9 @@ export default {
 };
 </script>
 
-<style lang="css">
-  #app {
-    color: #56b983;
-  }
+<style lang="stylus">
+
+#app
+  color #56b983
+
 </style>

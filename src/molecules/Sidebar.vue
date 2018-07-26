@@ -1,12 +1,20 @@
 <template lang="pug">
   div(id="sidebar" class="sidebar")
-    ul
-      li(v-for="(data, i) in articles" @click="selectnote(i)") {{ data.title }}
+    a-menu(:defaultSelectedKeys="[0]" :mode="mode" :theme="theme")
+      a-menu-item(v-for="(data, i) in articles" key="i" @click="selectNote(i)")
+        a-icon(type="file-text")
+        span {{ data.title }}
 </template>
 
 <script>
 export default {
   name: "sidebar",
+  data() {
+    return {
+      mode: "inline",
+      theme: "light"
+    };
+  },
   props: {
     articles: {
       type: Array,
@@ -25,13 +33,6 @@ export default {
   flex 1
   background-color white
   overflow-y auto
-  ul
-    display flex
-    flex-direction column
-    li
-      cursor pointer
-      padding 16px 8px
-      border-bottom 1px solid #ccc
-    li:hover 
-      opacity 0.7
+  ul 
+    height 100%
 </style>

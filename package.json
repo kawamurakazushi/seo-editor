@@ -23,6 +23,7 @@
   "dependencies": {
     "electron-json-storage": "^4.1.0",
     "vue": "^2.5.16",
+    "vue-antd-ui": "^1.0.0",
     "vue-hot-reload-api": "^2.3.0"
   }
 }
