@@ -10,44 +10,31 @@
       :articles="articles" 
       :onBodyChange="change"
     />
-    <div v-if="articles.length > 0" class="analytics ">
-      <div class="card ">
-        <h2>タイトル</h2>
-        <p class="wordCount ">{{ articles[index].title.length }}
-          <span>文字</span>
-        </p>
-        <h2>本文</h2>
-        <p class="wordCount ">{{ articles[index].body.length }}
-          <span>文字</span>
-        </p>
-      </div>
-      <div class="card ">
-        <h2>キーワード数</h2>
-        <div class="keywordWrapper ">
-          <div v-for="(keyword, i) in articles[index].keywords " class="keywordRow ">
-            <span @click="removeKeyword(i)" class="closeButton ">×</span>
-            <input v-model="keyword.value" @change="applyHighlight" />
-            <p>{{ keyword.value.length === 0 ? 0 : body.split(keyword.value).length - 1 }} 個</p>
-          </div>
-        </div>
-        <button @click="addKeyword ">キーワードを追加する</button>
-      </div>
-      <button @click="save">保存する</button>
-      <button @click="clear">クリア</button>
-      <button @click="add">追加する</button>
-    </div>
+    <Analytics 
+      v-if="articles.length > 0"
+      :index="index"
+      :articles="articles" 
+      :save="save"
+      :clear="clear"
+      :add="add"
+      :removeKeyword="removeKeyword"
+      :addKeyword="addKeyword"
+    />
+
   </div>
 </template>
 
 <script>
 import Sidebar from "../molecules/Sidebar.vue";
 import Editor from "../molecules/Editor.vue";
+import Analytics from "../molecules/Analytics.vue";
 
 export default {
   name: "app",
   components: {
     Sidebar,
-    Editor
+    Editor,
+    Analytics
   },
   data() {
     return {
@@ -96,8 +83,8 @@ export default {
     //  });
   },
   methods: {
-    addKeyword: function() {
-      this.keywords.push({
+    addKeyword: function(index) {
+      this.articles[index].keywords.push({
         value: ""
       });
     },
@@ -151,7 +138,9 @@ export default {
 
 <style lang="stylus">
 
-#app
-  color #56b983
+.app
+  display flex
+  background-color #f4f5f4
+  height 100%
 
 </style>

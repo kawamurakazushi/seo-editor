@@ -1,4 +1,5 @@
 <template lang="pug">
+
   div(id="editor" class="editor")
    a-input(size="large" placeholder="タイトル" v-model="articles[index].title")
    a-textarea(class="textarea" placeholder="本文" v-model="articles[index].body" @keyDown="onBodyChange")
@@ -27,8 +28,11 @@ export default {
 
 <style lang="stylus">
 
-div 
-  color red
+.editor
+  display flex
+  flex-direction column
+  flex 3
+  padding 16px
 
 .textarea
   height 100%

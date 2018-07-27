@@ -1,4 +1,5 @@
 <template lang="pug">
+
   div(id="sidebar" class="sidebar")
     a-menu(:defaultSelectedKeys="[0]" :mode="mode" :theme="theme")
       a-menu-item(v-for="(data, i) in articles" key="i" @click="selectNote(i)")

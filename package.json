@@ -4,7 +4,7 @@
   "description": "SEO Editor",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "yarn parcel src/index.html"
   },
   "repository": "https://github.com/kawamurakazushi/seo-editor",
   "keywords": [],
