@@ -1,26 +1,32 @@
 <template lang="pug">
 
     div(class="analytics")
-      a-card(title="詳細") 
-        h2 タイトル:
-        span {{ articles[index].title.length }}
-        span 文字
+      .card
+        a-card(title="詳細") 
+          h2 タイトル:
+          span {{ articles[index].title.length }}
+          span 文字
 
-        h2 本文:
-        span {{ articles[index].body.length }}
-        span 文字
+          h2 本文:
+          span {{ articles[index].body.length }}
+          span 文字
 
 
-      a-card(title="キーワード") 
-        div(class="keywordWrapper")
-          div(v-for="(keyword, i) in articles[index].keywords " class="keywordRow")
-            a-icon(type="delete" @click="removeKeyword(i)" class="closeButton")
-            a-input(v-model="keyword.value")
-            p {{ keyword.value.length === 0 ? 0 : body.split(keyword.value).length - 1 }} 個
-        a-button(@click="addKeyword(index)") キーワードを追加する
-      a-button(@click="save") 保存する
-      a-button(@click="clear") クリア
-      a-button(@click="add") 追加する
+      .card
+        a-card(class="card" title="キーワード") 
+          div(class="keywordWrapper")
+            div(v-for="(keyword, i) in articles[index].keywords " class="keywordRow")
+              a-icon(type="delete" @click="removeKeyword(i)" class="closeButton")
+              a-input(v-model="keyword.value")
+              p {{ keyword.value.length === 0 ? 0 : body.split(keyword.value).length - 1 }} 個
+          a-button(@click="addKeyword(index)") キーワードを追加する
+
+      a-tooltip(placement="topLeft")
+        template(slot="title")
+          span hi
+        a-button(icon="save" @click="save")
+
+      a-button(icon="file-add" @click="add")
 
 </template>
 
@@ -56,6 +62,8 @@ export default {
 </script>
 
 <style lang="stylus">
+.card
+  margin-bottom 16px
 
 .analytics
   flex 1
