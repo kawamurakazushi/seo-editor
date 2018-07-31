@@ -3,6 +3,7 @@
     <Sidebar
       :articles="articles" 
       :selectNote="selectNote"
+      :add="add"
     />
     <Editor 
       v-if="articles.length > 0"
@@ -16,7 +17,6 @@
       :articles="articles" 
       :save="save"
       :clear="clear"
-      :add="add"
       :removeKeyword="removeKeyword"
       :addKeyword="addKeyword"
     />
@@ -40,18 +40,15 @@ export default {
       index: 0,
       articles: [
         {
-          title: "a",
-          body: "body",
-          keywords: []
+          title: "新しいノート",
+          body: "本文",
+          keywords: [
+            {
+              value: "キーワード"
+            }
+          ]
         }
       ]
-      // keywords: [
-      //   {
-      //     value: "キーワード"
-      //   }
-      // ],
-      // body: "ここに本文を入力",
-      // title: "タイトル",
     };
   },
   created: function() {
@@ -86,8 +83,9 @@ export default {
         value: ""
       });
     },
-    removeKeyword: function(i) {
-      this.keywords.splice(i, 1);
+    removeKeyword: function(articleIndex, keywordIndex) {
+      console.log(this.articles);
+      this.articles[articleIndex].keywords.splice(keywordIndex, 1);
     },
     scroll: function(e) {
       var top = this.$el.querySelector(".editable").scrollTop;
@@ -123,10 +121,10 @@ export default {
 </script>
 
 <style lang="stylus">
-
-.app
-  display flex
-  background-color #f7f7f7
-  height 100%
-
+.app {
+  padding: 24px 16px;
+  display: flex;
+  background-color: #f7f7f7;
+  height: 100%;
+}
 </style>

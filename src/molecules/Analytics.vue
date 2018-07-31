@@ -10,23 +10,21 @@
           h2 本文:
           span {{ articles[index].body.length }}
           span 文字
-
-
       .card
         a-card(class="card" title="キーワード") 
-          div(class="keywordWrapper")
-            div(v-for="(keyword, i) in articles[index].keywords " class="keywordRow")
-              a-icon(type="delete" @click="removeKeyword(i)" class="closeButton")
-              a-input(v-model="keyword.value")
-              p {{ keyword.value.length === 0 ? 0 : body.split(keyword.value).length - 1 }} 個
-          a-button(@click="addKeyword(index)") キーワードを追加する
-
+          a-button(class="addButton" @click="addKeyword(index)" )
+            a-icon(type="plus-circle-o") 
+            | 追加
+          .keywordWrapper
+            .keywordRow(v-for="(keyword, i) in articles[index].keywords")
+              a-icon(type="delete" @click="removeKeyword(index, i)" class="closeButton")
+              a-input(class="input" v-model="keyword.value" size="small")
+              span {{ keyword.value.length === 0 ? 0 : articles[index].body.split(keyword.value).length - 1 }} 個
+            
       a-tooltip(placement="topLeft")
         template(slot="title")
           span hi
         a-button(icon="save" @click="save")
-
-      a-button(icon="file-add" @click="add")
 
 </template>
 
@@ -48,9 +46,6 @@ export default {
     clear: {
       type: Function
     },
-    add: {
-      type: Function
-    },
     removeKeyword: {
       type: Function
     },
@@ -62,11 +57,40 @@ export default {
 </script>
 
 <style lang="stylus">
-.card
-  margin-bottom 16px
+.card {
+  margin-bottom: 16px;
 
-.analytics
-  flex 1
-  padding 16px 16px 16px 0
+  .addButton {
+    margin-bottom: 8px;
 
+    i {
+      margin-right: 8px;
+    }
+  }
+}
+
+.analytics {
+  flex: 1;
+
+  .keywordRow {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+
+    .closeButton {
+      color: #f50057;
+      margin-right: 8px;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+
+    .input {
+      flex: 1;
+      margin-right: 8px;
+    }
+  }
+}
 </style>

@@ -7,7 +7,6 @@
 
 </template>
 
-
 <script>
 export default {
   name: "editor",
@@ -28,18 +27,18 @@ export default {
 </script>
 
 <style lang="stylus">
+.title {
+  margin-bottom: 16px;
+}
 
-.title
-  margin-bottom 16px
+#textarea {
+  height: 100%;
+}
 
-#textarea
-  height 100%
-
-.editor
-  display flex
-  flex-direction column
-  flex 3
-  padding 16px
-
-
+.editor {
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+  padding: 0 16px 0;
+}
 </style>
