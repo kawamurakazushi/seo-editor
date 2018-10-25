@@ -16,8 +16,9 @@
   "license": "MIT",
   "devDependencies": {
     "@vue/component-compiler-utils": "^2.1.0",
+    "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
-    "electron": "^2.0.0",
+    "electron": "^2.0.12",
     "electron-builder": "^20.26.0",
     "parcel-bundler": "^1.9.7",
     "prettier": "^1.13.7",
