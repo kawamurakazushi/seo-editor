@@ -22,8 +22,8 @@
         :articles="articles" 
         :save="save"
         :clear="clear"
-        :removeKeyword="removeKeyword"
-        :addKeyword="addKeyword"
+        :remove-keyword="removeKeyword"
+        :add-keyword="addKeyword"
       />
     </div>
   </div>
