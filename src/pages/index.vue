@@ -1,25 +1,31 @@
 <template>
   <div id="app" class="app">
-    <Sidebar
-      :articles="articles" 
-      :selectNote="selectNote"
-      :add="add"
-    />
-    <Editor 
-      v-if="articles.length > 0"
-      :index="index"
-      :articles="articles" 
-      :onBodyChange="change"
-    />
-    <Analytics 
-      v-if="articles.length > 0"
-      :index="index"
-      :articles="articles" 
-      :save="save"
-      :clear="clear"
-      :removeKeyword="removeKeyword"
-      :addKeyword="addKeyword"
-    />
+    <div class="sidebar">
+      <Sidebar
+        :articles="articles" 
+        :add="add"
+        :select="select"
+      />
+    </div>
+    <div class="editor">
+      <Editor 
+        v-if="articles.length > 0"
+        :index="index"
+        :articles="articles" 
+        :onBodyChange="change"
+      />
+    </div>
+    <div class="analytics">
+      <Analytics 
+        v-if="articles.length > 0"
+        :index="index"
+        :articles="articles" 
+        :save="save"
+        :clear="clear"
+        :removeKeyword="removeKeyword"
+        :addKeyword="addKeyword"
+      />
+    </div>
   </div>
 </template>
 
@@ -103,6 +109,10 @@ export default {
     clear: function() {
       // storage.clear();
     },
+    select: function(i) {
+      console.log("fuck");
+      this.index = i;
+    },
     add: function() {
       this.articles.push({
         title: "新しいノート",
@@ -111,10 +121,6 @@ export default {
       });
       this.index = this.articles.length - 1;
       console.log("new artciles", this.articles);
-    },
-    selectNote(i) {
-      console.log(i);
-      this.index = i;
     }
   }
 };
@@ -126,5 +132,17 @@ export default {
   display: flex;
   background-color: #f7f7f7;
   height: 100%;
+
+  .sidebar {
+    flex: 1;
+  }
+
+  .editor {
+    flex: 3;
+  }
+
+  .analytics: {
+    flex: 1;
+  }
 }
 </style>

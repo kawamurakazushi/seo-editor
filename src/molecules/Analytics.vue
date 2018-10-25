@@ -21,10 +21,7 @@
               a-input(class="input" v-model="keyword.value" size="small")
               span {{ keyword.value.length === 0 ? 0 : articles[index].body.split(keyword.value).length - 1 }} 個
             
-      a-tooltip(placement="topLeft")
-        template(slot="title")
-          span hi
-        a-button(icon="save" @click="save")
+      //- a-button(icon="save" @click="save")
 
 </template>
 

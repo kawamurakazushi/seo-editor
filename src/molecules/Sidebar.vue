@@ -6,7 +6,7 @@
     .files
       a-menu(:defaultSelectedKeys="[0]" :mode="mode" :theme="theme")
         a-menu-item(v-for="(data, index) in articles.filter(a => a.body.includes(search) || a.title.includes(search))")
-          div(@click="selectNote(index)")
+          div(@click="select(index)")
             a-icon(type="file-text")
             span {{ data.title }}
 </template>
@@ -26,7 +26,7 @@ export default {
       type: Array,
       required: true
     },
-    selectNote: {
+    select: {
       type: Function,
       required: true
     },
