@@ -1,5 +1,5 @@
 {
-  "name": "SEOEditor",
+  "name": "seo-editor",
   "version": "1.0.0",
   "description": "SEO Editor",
   "main": "main.js",
@@ -8,7 +8,7 @@
     "start:app": "electron .",
     "pack": "electron-builder --dir",
     "build": "electron-builder",
-    "docs": "parcel build src/index.html --out-dir docs/"
+    "docs": "parcel build src/index.html --out-dir docs/ --public-url ."
   },
   "repository": "https://github.com/kawamurakazushi/seo-editor",
   "keywords": [],
