@@ -4,3 +4,8 @@ build/
 release-builds/
 .cache/
 dist/
+elm-stuff/
+seo-editor-darwin-x64/
+yarn-error.log
+
+
