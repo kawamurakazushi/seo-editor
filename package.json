@@ -15,28 +15,18 @@
   "author": "GitHub",
   "license": "MIT",
   "devDependencies": {
-    "@vue/component-compiler-utils": "^2.1.0",
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
     "electron": "^2.0.12",
     "electron-builder": "^20.26.0",
     "node-elm-compiler": "^5.0.1",
-    "parcel-bundler": "^1.9.7",
-    "prettier": "^1.13.7",
-    "pug": "^2.0.3",
-    "stylus": "^0.54.5",
-    "vue-template-compiler": "^2.5.16"
+    "parcel-bundler": "^1.9.7"
   },
   "dependencies": {
-    "electron-json-storage": "^4.1.0",
-    "vue": "^2.5.16",
-    "vue-antd-ui": "^1.0.1",
-    "vue-hot-reload-api": "^2.3.0"
+    "electron-json-storage": "^4.1.0"
   },
   "build": {
-    "appId": "your.id",
+    "appId": "com.kawamurakazushi.seo-editor",
     "mac": {
-      "category": "your.app.category.type"
+      "category": "productivity"
     }
   }
 }
