@@ -26,7 +26,7 @@ type alias Model =
 init : Model
 init =
     { body = ""
-    , keywords = [ "就活" ]
+    , keywords = [ "" ]
     , newKeyword = ""
     }
 
@@ -118,7 +118,7 @@ view model =
                     ++ [ displayFlex
                        , flexDirection column
                        , flex (int 2)
-                       , margin (px 16)
+                       , margin3 (px 24) (px 16) (px 16)
                        ]
                 )
             ]
@@ -130,7 +130,7 @@ view model =
             , div [ css [ minHeight (px 1), minWidth (pct 100), margin2 (px 16) (px 0), minHeight (px 1), backgroundColor (hex "#eee") ] ] []
             , textarea [ css [ lineHeight (px 22), flex (int 1), fontSize (px 14) ], placeholder "", onInput ChangeBody ] []
             ]
-        , div [ css (panelStyle ++ [ displayFlex, flexDirection column, flex (int 1), margin4 (px 16) (px 16) (px 16) (px 0) ]) ]
+        , div [ css (panelStyle ++ [ displayFlex, flexDirection column, flex (int 1), margin4 (px 24) (px 16) (px 16) (px 0) ]) ]
             [ div [ css [ color (hex "abb"), fontWeight bold, fontSize (px 12) ] ] [ text "KEYWORDS" ]
             , div [ css [ displayFlex, marginTop (px 16) ] ]
                 [ input [ css [ flex (int 1), padding (px 8), fontSize (px 11) ], placeholder "New Keyword", onInput ChangeNewKeyword, value model.newKeyword ] []

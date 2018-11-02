@@ -5,9 +5,9 @@ const path = require("path");
 const url = require("url");
 
 // Let electron reloads by itself when webpack watches changes in ./app/
-// if (process.env.ELECTRON_START_URL) {
-//   require("electron-reload")(__dirname);
-// }
+if (process.env.ELECTRON_START_URL) {
+  require("electron-reload")(__dirname);
+}
 
 let mainWindow;
 
