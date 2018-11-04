@@ -3,7 +3,7 @@ module Main exposing (main)
 import Browser
 import Css exposing (..)
 import Html
-import Html.Styled exposing (Html, button, div, input, text, textarea, toUnstyled)
+import Html.Styled exposing (Html, button, div, form, input, text, textarea, toUnstyled)
 import Html.Styled.Attributes exposing (..)
 import Html.Styled.Events exposing (..)
 
@@ -132,10 +132,10 @@ view model =
             ]
         , div [ css (panelStyle ++ [ displayFlex, flexDirection column, flex (int 1), margin4 (px 24) (px 16) (px 16) (px 0) ]) ]
             [ div [ css [ color (hex "abb"), fontWeight bold, fontSize (px 12) ] ] [ text "KEYWORDS" ]
-            , div [ css [ displayFlex, marginTop (px 16) ] ]
+            , Html.Styled.form [ css [ displayFlex, marginTop (px 16) ], Html.Styled.Events.onSubmit AddKeyword ]
                 [ input [ css [ flex (int 1), padding (px 8), fontSize (px 11) ], placeholder "New Keyword", onInput ChangeNewKeyword, value model.newKeyword ] []
-                , button [ css [ border3 (px 1) solid (hex "eee") ], onClick AddKeyword ] [ text "Add" ]
                 ]
+            , button [ css [ border3 (px 1) solid (hex "eee"), borderRadius (px 4), marginTop (px 8), padding (px 8) ], onClick AddKeyword ] [ text "Add" ]
             , div [ css [ marginTop (px 16), flex (int 1), overflowY auto ] ]
                 (List.indexedMap
                     (\index l ->
