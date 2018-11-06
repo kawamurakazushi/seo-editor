@@ -1,4 +1,11 @@
-module Main exposing (main)
+module Main exposing
+    ( countCharacters
+    , countKeywords
+    , init
+    , main
+    , percentage
+    , update
+    )
 
 import Browser
 import Css exposing (..)
@@ -84,8 +91,8 @@ panelStyle =
     ]
 
 
-characters : String -> Int
-characters body =
+countCharacters : String -> Int
+countCharacters body =
     String.length (String.filter (\x -> x /= '\n') body)
 
 
@@ -106,7 +113,7 @@ percentage body keyword =
             "0%"
 
         _ ->
-            String.fromInt (Basics.round (toFloat (countKeywords body keyword * String.length keyword) / toFloat (characters body) * 100)) ++ "%"
+            String.fromInt (Basics.round (toFloat (countKeywords body keyword * String.length keyword) / toFloat (countCharacters body) * 100)) ++ "%"
 
 
 view : Model -> Html Msg
@@ -125,7 +132,7 @@ view model =
             [ div []
                 [ div [ css [ color (hex "abb"), fontWeight bold, fontSize (px 12) ] ] [ text "CHARACTERS" ]
                 , div [ css [ marginTop (px 16), fontSize (px 22), fontWeight bold ] ]
-                    [ text (String.fromInt (characters model.body)) ]
+                    [ text (String.fromInt (countCharacters model.body)) ]
                 ]
             , div [ css [ minHeight (px 1), minWidth (pct 100), margin2 (px 16) (px 0), minHeight (px 1), backgroundColor (hex "#eee") ] ] []
             , textarea [ css [ lineHeight (px 22), flex (int 1), fontSize (px 14) ], placeholder "", onInput ChangeBody ] []
