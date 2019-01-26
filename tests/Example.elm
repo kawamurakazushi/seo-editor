@@ -1,7 +1,5 @@
 module Example exposing (suite)
 
--- import Fuzz exposing (Fuzzer, int, list, string)
-
 import Expect exposing (Expectation)
 import Main
 import Test exposing (..)

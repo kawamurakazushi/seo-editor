@@ -1,26 +1,31 @@
-module Main exposing
-    ( countCharacters
-    , countKeywords
-    , init
-    , main
-    , percentage
-    , update
-    )
+port module Main exposing (Model, Msg(..), cache, countCharacters, countKeywords, init, main, panelStyle, percentage, update, view)
 
 import Browser
 import Css exposing (..)
+import Debug
 import Html
 import Html.Styled exposing (Html, button, div, form, input, text, textarea, toUnstyled)
 import Html.Styled.Attributes exposing (..)
 import Html.Styled.Events exposing (..)
+import Json.Decode exposing (Decoder, decodeValue, errorToString, field, list, map3, string)
 
 
+port cache : Model -> Cmd msg
+
+
+main : Program Json.Decode.Value Model Msg
 main =
-    Browser.sandbox { init = init, update = update, view = view >> toUnstyled }
+    Browser.element
+        { init = init
+        , view = toUnstyled << view
+        , update = update
+        , subscriptions = subscriptions
+        }
 
 
-type alias Content =
-    { body : String, keywords : List String }
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none
 
 
 type alias Model =
@@ -30,12 +35,29 @@ type alias Model =
     }
 
 
-init : Model
-init =
-    { body = ""
-    , keywords = [ "" ]
-    , newKeyword = ""
-    }
+modelDecoder : Decoder Model
+modelDecoder =
+    map3 Model
+        (field "body" string)
+        (field "keywords" (list string))
+        (field "newKeyword" string)
+
+
+init : Json.Decode.Value -> ( Model, Cmd Msg )
+init flags =
+    let
+        default =
+            { body = "u"
+            , keywords = [ "" ]
+            , newKeyword = ""
+            }
+    in
+    ( flags
+        |> decodeValue modelDecoder
+        |> Result.toMaybe
+        |> Maybe.withDefault default
+    , Cmd.none
+    )
 
 
 type Msg
@@ -46,40 +68,60 @@ type Msg
     | AddKeyword
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ChangeBody newValue ->
-            { model | body = newValue }
+            let
+                new =
+                    { model | body = newValue }
+            in
+            ( new, cache new )
 
         ChangeNewKeyword newValue ->
-            { model | newKeyword = newValue }
+            let
+                new =
+                    { model | newKeyword = newValue }
+            in
+            ( new, cache new )
 
         ChangeKeyword index newValue ->
-            { model
-                | keywords =
-                    model.keywords
-                        |> List.indexedMap
-                            (\i x ->
-                                if i == index then
-                                    newValue
+            let
+                new =
+                    { model
+                        | keywords =
+                            model.keywords
+                                |> List.indexedMap
+                                    (\i x ->
+                                        if i == index then
+                                            newValue
 
-                                else
-                                    x
-                            )
-            }
+                                        else
+                                            x
+                                    )
+                    }
+            in
+            ( new, cache new )
 
         DeleteKeyword index ->
-            { model
-                | keywords =
-                    model.keywords
-                        |> List.indexedMap Tuple.pair
-                        |> List.filter (\x -> Tuple.first x /= index)
-                        |> List.map (\x -> Tuple.second x)
-            }
+            let
+                new =
+                    { model
+                        | keywords =
+                            model.keywords
+                                |> List.indexedMap Tuple.pair
+                                |> List.filter (\x -> Tuple.first x /= index)
+                                |> List.map (\x -> Tuple.second x)
+                    }
+            in
+            ( new, cache new )
 
         AddKeyword ->
-            { model | keywords = model.keywords ++ [ model.newKeyword ], newKeyword = "" }
+            let
+                new =
+                    { model | keywords = model.keywords ++ [ model.newKeyword ], newKeyword = "" }
+            in
+            ( new, cache new )
 
 
 panelStyle : List Style
@@ -135,7 +177,7 @@ view model =
                     [ text (String.fromInt (countCharacters model.body)) ]
                 ]
             , div [ css [ minHeight (px 1), minWidth (pct 100), margin2 (px 16) (px 0), minHeight (px 1), backgroundColor (hex "#eee") ] ] []
-            , textarea [ css [ lineHeight (px 22), flex (int 1), fontSize (px 14) ], placeholder "", onInput ChangeBody ] []
+            , textarea [ css [ lineHeight (px 22), flex (int 1), fontSize (px 14) ], placeholder "", onInput ChangeBody ] [ text model.body ]
             ]
         , div [ css (panelStyle ++ [ displayFlex, flexDirection column, flex (int 1), margin4 (px 24) (px 16) (px 16) (px 0) ]) ]
             [ div [ css [ color (hex "abb"), fontWeight bold, fontSize (px 12) ] ] [ text "KEYWORDS" ]
