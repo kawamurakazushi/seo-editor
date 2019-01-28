@@ -70,58 +70,55 @@ type Msg
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
+    let
+        withCache pair =
+            let
+                ( m, cmd ) =
+                    pair
+            in
+            ( m, Cmd.batch [ cache m, cmd ] )
+    in
     case msg of
         ChangeBody newValue ->
-            let
-                new =
-                    { model | body = newValue }
-            in
-            ( new, cache new )
+            withCache ( { model | body = newValue }, Cmd.none )
 
         ChangeNewKeyword newValue ->
-            let
-                new =
-                    { model | newKeyword = newValue }
-            in
-            ( new, cache new )
+            withCache ( { model | newKeyword = newValue }, Cmd.none )
 
         ChangeKeyword index newValue ->
-            let
-                new =
-                    { model
-                        | keywords =
-                            model.keywords
-                                |> List.indexedMap
-                                    (\i x ->
-                                        if i == index then
-                                            newValue
+            withCache
+                ( { model
+                    | keywords =
+                        model.keywords
+                            |> List.indexedMap
+                                (\i x ->
+                                    if i == index then
+                                        newValue
 
-                                        else
-                                            x
-                                    )
-                    }
-            in
-            ( new, cache new )
+                                    else
+                                        x
+                                )
+                  }
+                , Cmd.none
+                )
 
         DeleteKeyword index ->
-            let
-                new =
-                    { model
-                        | keywords =
-                            model.keywords
-                                |> List.indexedMap Tuple.pair
-                                |> List.filter (\x -> Tuple.first x /= index)
-                                |> List.map (\x -> Tuple.second x)
-                    }
-            in
-            ( new, cache new )
+            withCache
+                ( { model
+                    | keywords =
+                        model.keywords
+                            |> List.indexedMap Tuple.pair
+                            |> List.filter (\x -> Tuple.first x /= index)
+                            |> List.map (\x -> Tuple.second x)
+                  }
+                , Cmd.none
+                )
 
         AddKeyword ->
-            let
-                new =
-                    { model | keywords = model.keywords ++ [ model.newKeyword ], newKeyword = "" }
-            in
-            ( new, cache new )
+            withCache
+                ( { model | keywords = model.keywords ++ [ model.newKeyword ], newKeyword = "" }
+                , Cmd.none
+                )
 
 
 panelStyle : List Style
